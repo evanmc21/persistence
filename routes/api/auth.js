@@ -6,7 +6,9 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 const passport = require('passport');
 
+// validations
 const validateSignUp = require('../../validations/signup');
+const validateLogin = require('../../validations/login');
 
 const Auth = require('../../models/Auth');
 
@@ -51,11 +53,19 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
+  const { errors, isValid } = validateLogin(req.body);
+
+  if (!isValid) {
+    return res.status(404).json(errors);
+  }
+
   const password = req.body.password;
   const email = req.body.email;
+
   Auth.findOne({ email }).then(auth => {
     if (!auth) {
-      return res.status(404).json({ email: 'User not found' });
+      errors.email = 'user not found';
+      return res.status(404).json(errors);
     }
 
     bcrypt.compare(password, auth.password).then(isMatch => {
@@ -78,7 +88,8 @@ router.post('/login', (req, res) => {
           }
         );
       } else {
-        return res.status(404).json({ password: 'incorrect password' });
+        errors.password = 'incorrect password';
+        return res.status(404).json(errors);
       }
     });
   });
