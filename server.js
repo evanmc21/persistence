@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const auth = require('./routes/api/auth');
-const profile = require('./routes/api/profile');
+const profiles = require('./routes/api/profiles');
 const posts = require('./routes/api/posts');
 
 const app = express();
@@ -16,7 +16,7 @@ app.get('/', (req, res) => res.send('Haaayy'));
 
 // routes middleware
 app.use('/api/auth', auth);
-app.use('/api/profile', profile);
+app.use('/api/profiles', profiles);
 app.use('/api/posts', posts);
 
 const port = process.env.PORT || 5000;
