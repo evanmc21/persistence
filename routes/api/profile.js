@@ -25,4 +25,70 @@ router.get(
   }
 );
 
+router.post(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const errors = {};
+
+    const profileFields = {};
+    profileFields.user = req.user.id;
+    profileFields.social = {};
+
+    const whiteList = [
+      'handle',
+      'website',
+      'bio',
+      'experienceLevel',
+      'location',
+      'skills',
+      'youtube',
+      'twitter',
+      'instagram',
+      'facebook',
+      'linkedin'
+    ];
+    const inputData = Object.keys(req.body);
+
+    for (key of inputData) {
+      if (whiteList.includes(key)) {
+        if (key === 'skills' && typeof req.body.skills !== 'undefined') {
+          profileFields[key] = req.body.skills.split(',');
+        } else if (
+          ['youtube', 'twitter', 'instagram', 'facebook'].includes(key) &&
+          req.body[key]
+        ) {
+          profileFields.social[key] = req.body[key];
+        } else if (req.body[key]) {
+          profileFields[key] = req.body[key];
+        }
+      }
+    }
+    Profile.findOne({ handle: profileFields.handle }).then(profile => {
+      if (profile && profile.user != req.user.id) {
+        errors.handle = 'this handle already exists';
+        res.status(400).json(errors);
+      } else {
+        Profile.findOne({ user: req.user.id }).then(profile => {
+          if (profile) {
+            Profile.findOneAndUpdate(
+              {
+                user: req.user.id
+              },
+              {
+                $set: profileFields
+              },
+              { new: true }
+            ).then(profile => res.json(profile));
+          } else {
+            new Profile(profileFields)
+              .save()
+              .then(profile => res.json(profile));
+          }
+        });
+      }
+    });
+  }
+);
+
 module.exports = router;
