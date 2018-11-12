@@ -27,6 +27,22 @@ router.get(
   }
 );
 
+// fetch all profiles
+router.get('/all', (req, res) => {
+  const errors = {};
+
+  Profile.find()
+    .populate('user', ['name', 'avatar'])
+    .then(profiles => {
+      if (!profiles) {
+        errors.none = 'no profiles found';
+        return res.status(404).json(errors);
+      }
+      res.json(profiles);
+    })
+    .catch(err => res.status(404).json(errors));
+});
+
 // fetch profile by handle
 
 router.get('/handle/:handle', (req, res) => {
