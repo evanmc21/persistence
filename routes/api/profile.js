@@ -146,4 +146,17 @@ router.post(
   }
 );
 
+router.post(
+  '/experience',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      const newXP = req.body;
+
+      profile.experience.unshift(newXP);
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+
 module.exports = router;
