@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
+const validateProfile = require('../../validations/profile');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
@@ -29,7 +30,12 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    const errors = {};
+    const { errors, isValid } = validateProfile(req.body);
+    // check validations
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
 
     const profileFields = {};
     profileFields.user = req.user.id;
@@ -46,7 +52,9 @@ router.post(
       'twitter',
       'instagram',
       'facebook',
-      'linkedin'
+      'linkedin',
+      'favoriteQuote',
+      'specialty'
     ];
     const inputData = Object.keys(req.body);
 
@@ -64,6 +72,7 @@ router.post(
         }
       }
     }
+
     Profile.findOne({ handle: profileFields.handle }).then(profile => {
       if (profile && profile.user != req.user.id) {
         errors.handle = 'this handle already exists';
