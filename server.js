@@ -4,13 +4,11 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 // routes
-const auth = require('./routes/api/auth');
+const users = require('./routes/api/users');
 const profiles = require('./routes/api/profiles');
 const posts = require('./routes/api/posts');
 
-
 const app = express();
-
 
 // middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,9 +17,10 @@ app.use(bodyParser.json());
 // database
 const db = require('./config/keys').mongoURI;
 
-mongoose.connect(db).then(() => console.log('DB connected!'))
-.catch(err => console.log(err));
-
+mongoose
+  .connect(db)
+  .then(() => console.log('DB connected!'))
+  .catch(err => console.log(err));
 
 // passport middleware
 app.use(passport.initialize());
@@ -29,7 +28,7 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 // routes middleware
-app.use('/api/auth', auth);
+app.use('/api/users', users);
 app.use('/api/profiles', profiles);
 app.use('/api/posts', posts);
 

@@ -10,9 +10,9 @@ const passport = require('passport');
 const validateSignUp = require('../../validations/signup');
 const validateLogin = require('../../validations/login');
 
-const Auth = require('../../models/Auth');
+const User = require('../../models/User');
 
-router.get('/test', (req, res) => res.json({ msg: 'Auth Works' }));
+router.get('/test', (req, res) => res.json({ msg: 'User Works' }));
 
 router.post('/signup', (req, res) => {
   const { errors, isValid } = validateSignUp(req.body);
@@ -21,8 +21,8 @@ router.post('/signup', (req, res) => {
   if (!isValid) {
     return res.status(400).json(errors);
   }
-  Auth.findOne({ email: req.body.email }).then(auth => {
-    if (auth) {
+  User.findOne({ email: req.body.email }).then(user => {
+    if (user) {
       errors.email = 'email already exists';
       return res.status(400).json(errors);
     } else {
@@ -32,19 +32,19 @@ router.post('/signup', (req, res) => {
         d: 'mm'
       });
 
-      const newAuth = new Auth({
+      const newUser = new User({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         avatar
       });
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newAuth.password, salt, (err, hash) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
-          newAuth.password = hash;
-          newAuth
+          newUser.password = hash;
+          newUser
             .save()
-            .then(auth => res.json(auth))
+            .then(user => res.json(user))
             .catch(err => console.log(err));
         });
       });
@@ -62,18 +62,18 @@ router.post('/login', (req, res) => {
   const password = req.body.password;
   const email = req.body.email;
 
-  Auth.findOne({ email }).then(auth => {
-    if (!auth) {
+  User.findOne({ email }).then(user => {
+    if (!user) {
       errors.email = 'user not found';
       return res.status(404).json(errors);
     }
 
-    bcrypt.compare(password, auth.password).then(isMatch => {
+    bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         const payload = {
-          id: auth.id,
-          email: auth.email,
-          name: auth.name
+          id: user.id,
+          email: user.email,
+          name: user.name
         };
         // sign token
         jwt.sign(
