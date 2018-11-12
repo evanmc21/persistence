@@ -44,7 +44,6 @@ router.get('/all', (req, res) => {
 });
 
 // fetch profile by handle
-
 router.get('/handle/:handle', (req, res) => {
   Profile.findOne({ handle: req.params.handle })
     .populate('user', ['name', 'avatar'])
@@ -59,7 +58,6 @@ router.get('/handle/:handle', (req, res) => {
 });
 
 // fetch profile by userid
-
 router.get('/user/:user_id', (req, res) => {
   Profile.findOne({ user: req.params.user_id })
     .populate('user', ['name', 'avatar'])
