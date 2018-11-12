@@ -40,7 +40,7 @@ const ProfileSchema = new Schema({
         required: true
       },
       fieldofStudy: {
-        type: string,
+        type: String,
         required: true
       },
       from: {
@@ -63,7 +63,7 @@ const ProfileSchema = new Schema({
     type: String
   },
   skills: {
-    type: [string],
+    type: [String],
     required: true
   },
   experience: [
@@ -77,7 +77,7 @@ const ProfileSchema = new Schema({
         required: true
       },
       location: {
-        type: string
+        type: String
       },
       from: {
         type: Date,
@@ -115,4 +115,6 @@ const ProfileSchema = new Schema({
   }
 });
 
-module.exports = Profile = mongoose.model('profile', ProfileSchema);
+const Profile = mongoose.model('profile', ProfileSchema);
+
+module.exports = Profile;
