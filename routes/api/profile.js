@@ -15,6 +15,7 @@ router.get(
     const errors = {};
     // use profile model to find user
     Profile.findOne({ user: req.user.id })
+      .populate('user', ['name', 'avatar'])
       .then(profile => {
         if (!profile) {
           errors.none = "a profile doesn't exist for this user";
@@ -63,7 +64,7 @@ router.post(
         if (key === 'skills' && typeof req.body.skills !== 'undefined') {
           profileFields[key] = req.body.skills.split(',');
         } else if (
-          ['youtube', 'twitter', 'instagram', 'facebook'].includes(key) &&
+          ['youtube', 'twitter', 'instagram', 'linkedin'].includes(key) &&
           req.body[key]
         ) {
           profileFields.social[key] = req.body[key];
