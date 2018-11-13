@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 const validateProfile = require('../../validations/profile');
+const validateExperience = require('../../validations/experience');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
@@ -150,6 +151,11 @@ router.post(
   '/experience',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateExperience(req.body);
+
+    if (!isValid) {
+      return res.status(404).json(errors);
+    }
     Profile.findOne({ user: req.user.id }).then(profile => {
       const newXP = req.body;
 
