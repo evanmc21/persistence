@@ -6,12 +6,12 @@ const validatePost = data => {
 
   data.content = !isEmpty(data.content) ? data.content : '';
 
-  if (validator.isEmpty(data.content)) {
-    errors.content = 'please entire a job content';
+  if (!validator.isLength(data.content, { min: 2, max: 500 })) {
+    errors.content = 'posts must be between 2 and 500 characters';
   }
 
-  if (validator.isLength(data.content, { min: 2, max: 500 })) {
-    errors.content = 'posts must be between 2 and 500 characters';
+  if (validator.isEmpty(data.content)) {
+    errors.content = 'please enter text to submit a post';
   }
 
   return {
