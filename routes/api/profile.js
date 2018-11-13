@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const validateProfile = require('../../validations/profile');
 const validateExperience = require('../../validations/experience');
+const validateEducation = require('../../validations/education');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
@@ -160,6 +161,24 @@ router.post(
       const newXP = req.body;
 
       profile.experience.unshift(newXP);
+      profile.save().then(profile => res.json(profile));
+    });
+  }
+);
+
+router.post(
+  '/education',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateEducation(req.body);
+
+    if (!isValid) {
+      return res.status(404).json(errors);
+    }
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      const newEdu = req.body;
+
+      profile.education.unshift(newEdu);
       profile.save().then(profile => res.json(profile));
     });
   }
