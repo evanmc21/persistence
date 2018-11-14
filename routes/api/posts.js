@@ -81,4 +81,63 @@ router.delete(
   }
 );
 
+router.post(
+  '/comment/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validatePost(req.body);
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    Post.findById(req.params.id)
+      .then(post => {
+        const newComment = {
+          content: req.body.content,
+          name: req.body.name,
+          avatar: req.body.avatar,
+          user: req.user.id
+        };
+        // add to comments array
+        post.comments.unshift(newComment);
+        post.save().then(post => res.json(post));
+      })
+      .catch(err => res.status(404).json({ postNotFound: 'no post found' }));
+  }
+);
+
+router.delete(
+  '/:post_id/comment/:comment_id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Post.findById(req.params.post_id)
+      .then(post => {
+        if (!post) {
+          return res.status(404).json({ postNotFound: 'post not found' });
+        }
+        const commentDelete = post.comments.find(
+          comment => comment._id == req.params.comment_id
+        );
+        if (!commentDelete) {
+          return res.status(404).json({ comment: 'comment does not exist' });
+        }
+        // check if user is owner of the post or comment
+        if (post.user != req.user.id) {
+          if (commentDelete.user != req.user.id) {
+            return res
+              .json(401)
+              .json({ notAuthorized: 'You cannot delete this comment' });
+          }
+        }
+        // update comments array
+        post
+          .update({ $pull: { comments: { _id: req.params.comment_id } } })
+          .then(() => res.json({ deletedComment: 'comment has been deleted' }))
+          .catch(err => res.status(400).send(err));
+      })
+      .catch(err => res.status(400).json(err));
+  }
+);
+
 module.exports = router;
