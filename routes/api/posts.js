@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../../models/Post');
-const Profile = require('../../models/Profile');
+
 const passport = require('passport');
 const validatePost = require('../../validations/post');
 
@@ -40,6 +40,31 @@ router.post(
   }
 );
 
+router.post(
+  '/like/:postId',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { postId } = req.params;
+
+    Post.findById(postId, (err, foundPost) => {
+      if (!foundPost || err) {
+        res.status(404).json({ Error: err, Message: 'post not found' });
+      }
+      const index = foundPost.likes.findIndex(value => {
+        return value.user == req.user.id;
+      });
+      if (index == -1) {
+        foundPost.likes.push({ user: req.user.id });
+      } else {
+        foundPost.likes.splice(index, 1);
+      }
+      foundPost.save().then(savedPost => {
+        res.status(200).json(savedPost);
+      });
+    });
+  }
+);
+
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
@@ -55,4 +80,5 @@ router.delete(
       );
   }
 );
+
 module.exports = router;
