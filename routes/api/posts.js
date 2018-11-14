@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Post = require('../../models/Post');
+const Profile = require('../../models/Profile');
 const passport = require('passport');
 const validatePost = require('../../validations/post');
 
@@ -39,4 +40,19 @@ router.post(
   }
 );
 
+router.delete(
+  '/:id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Post.findOneAndRemove({ _id: req.params.id, user: req.user.id })
+      .then(post => {
+        return !post
+          ? res.status(401).json({ post: 'post not found' })
+          : res.status(200).json({ post: 'post deleted' });
+      })
+      .catch(err =>
+        res.status(404).json({ post: 'there is a problem deleting the post' })
+      );
+  }
+);
 module.exports = router;
