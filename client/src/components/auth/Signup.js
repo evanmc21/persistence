@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 
 class Signup extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: '',
-      email: '',
-      password: '',
-      password2: '',
-      errors: {}
-    };
-    this.onChange = this.onChange.bind(this);
-  }
+  state = {
+    name: '',
+    email: '',
+    password: '',
+    password2: '',
+    errors: {}
+  };
 
   onChange = e => {
     this.setState({
