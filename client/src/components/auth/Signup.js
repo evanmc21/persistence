@@ -13,6 +13,12 @@ class Signup extends Component {
     errors: {}
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors });
+    }
+  }
+
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -30,12 +36,6 @@ class Signup extends Component {
     };
     this.props.signupUser(newUser, this.props.history);
   };
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.errors !== this.props.errors) {
-      this.setState({ errors: this.props.errors });
-    }
-  }
 
   render() {
     const { errors } = this.state;
