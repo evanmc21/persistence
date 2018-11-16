@@ -11,14 +11,20 @@ class Login extends Component {
     errors: {}
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidMount = () => {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
+  };
+
+  componentDidUpdate = prevProps => {
     if (prevProps.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
     if (prevProps.errors !== this.props.errors) {
       this.setState({ errors: this.props.errors });
     }
-  }
+  };
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value

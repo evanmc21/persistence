@@ -26,7 +26,7 @@ class NavBar extends Component {
               alt={user.name}
               style={{ width: '25px', marginRight: '5px' }}
               title="must have a gravatar connected to your email to display an image"
-            />
+            />{' '}
             Logout
           </a>
         </li>
