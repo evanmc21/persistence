@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import classnames from 'classnames';
-
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signupUser } from '../../actions/auth';
 class Signup extends Component {
   state = {
     name: '',
@@ -26,11 +28,15 @@ class Signup extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
-    axios
-      .post('/api/users/signup', newUser)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+    this.props.signupUser(newUser, this.props.history);
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors });
+    }
+  }
+
   render() {
     const { errors } = this.state;
 
@@ -118,4 +124,18 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+Signup.propTypes = {
+  signupUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { signupUser }
+)(withRouter(Signup));
