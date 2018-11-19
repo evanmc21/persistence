@@ -14,6 +14,7 @@ import Footer from './components/layout/Footer';
 import Signup from './components/auth/Signup';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
+import CreateProfile from './components/create-profile/CreateProfile';
 
 import './App.css';
 
@@ -44,6 +45,11 @@ class App extends Component {
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/login" component={Login} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute
+                exact
+                path="/create-profile"
+                component={CreateProfile}
+              />
             </div>
             <Footer />
           </div>

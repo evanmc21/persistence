@@ -2,21 +2,15 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const TextField = ({
-  name,
-  placeholder,
-  value,
-  label,
-  error,
-  info,
-  type,
-  onChange,
-  disabled
-}) => {
+const Input = ({ name, placeholder, value, error, icon, type, onChange }) => {
   return (
-    <div className="form-group">
+    <div className="input-group nb-3">
+      <div className="input-group-prepend">
+        <span className="input-group-text">
+          <i className={icon} />
+        </span>
+      </div>
       <input
-        type={type}
         className={classnames('form-control form-control-lg', {
           'is-invalid': error
         })}
@@ -24,26 +18,25 @@ const TextField = ({
         name={name}
         value={value}
         onChange={onChange}
-        disabled={disabled}
       />
-      {info && <small classname="form-text text-muted">{info}</small>}
+
       {error && <div className="invalid-feedback">{error}</div>}
     </div>
   );
 };
 
-TextField.prototypes = {
+Input.prototypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
-  info: PropTypes.string,
   type: PropTypes.string.isRequired,
+  icon: PropTypes.string,
   error: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.string
+  onChange: PropTypes.func.isRequired
 };
 
-TextField.defaultProps = {
+Input.defaultProps = {
   type: 'text'
 };
-export default TextField;
+
+export default Input;

@@ -2,21 +2,10 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const TextField = ({
-  name,
-  placeholder,
-  value,
-  label,
-  error,
-  info,
-  type,
-  onChange,
-  disabled
-}) => {
+const TextArea = ({ name, placeholder, value, error, info, onChange }) => {
   return (
     <div className="form-group">
-      <input
-        type={type}
+      <textarea
         className={classnames('form-control form-control-lg', {
           'is-invalid': error
         })}
@@ -32,7 +21,7 @@ const TextField = ({
   );
 };
 
-TextField.prototypes = {
+TextArea.prototypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
@@ -43,7 +32,4 @@ TextField.prototypes = {
   disabled: PropTypes.string
 };
 
-TextField.defaultProps = {
-  type: 'text'
-};
-export default TextField;
+export default TextArea;
