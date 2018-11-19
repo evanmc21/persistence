@@ -93,21 +93,6 @@ class Signup extends Component {
                   onChange={this.onChange}
                   error={errors.password2}
                 />
-                <div className="form-group">
-                  <input
-                    type="password"
-                    className={classnames('form-control form-control-lg', {
-                      'is-invalid': errors.password2
-                    })}
-                    placeholder="Confirm Password"
-                    name="password2"
-                    value={this.state.password2}
-                    onChange={this.onChange}
-                  />
-                  {errors.password2 && (
-                    <div className="invalid-feedback">{errors.password2}</div>
-                  )}
-                </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
