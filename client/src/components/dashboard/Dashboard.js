@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Spinner from '../common/Spinner';
 import Profile from './Profile';
 import ShowExperience from './ShowExperience';
+import ShowEducation from './ShowEducation';
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -35,6 +36,7 @@ class Dashboard extends Component {
             </p>
             <Profile />
             <ShowExperience experience={profile.experience} />
+            <ShowEducation education={profile.education} />
             <div style={{ marginBottom: '60px' }} />
             <button
               onClick={this.onDeleteClick.bind(this)}

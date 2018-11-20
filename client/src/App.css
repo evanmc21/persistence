@@ -37,3 +37,7 @@ img {
 .form-control::placeholder {
   color: #6CA1B6 !important;
 }
+
+.table {
+  table-layout: fixed;
+}

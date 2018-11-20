@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextField from '../common/TextField';
 import TextArea from '../common/TextArea';
@@ -158,6 +159,9 @@ class EditProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
+              <Link to="/dashboard" className="text-info">
+                Back
+              </Link>
               <h1 className="display-4 text-center">Edit Your Profile</h1>
               <br />
               <form onSubmit={this.onSubmit}>
