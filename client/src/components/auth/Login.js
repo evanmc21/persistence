@@ -22,7 +22,7 @@ class Login extends Component {
       this.props.history.push('/dashboard');
     }
     if (prevProps.errors !== this.props.errors) {
-      this.setState({ errors: this.props.errors });
+      this.setState({ errors: prevProps.errors });
     }
   };
   onChange = e => {
@@ -70,7 +70,10 @@ class Login extends Component {
                   onChange={this.onChange}
                   error={errors.password}
                 />
-                <input type="submit" className="btn btn-info btn-block mt-4" />
+                <input
+                  type="submit"
+                  className="btn btn-outline-info btn-block mt-4"
+                />
               </form>
             </div>
           </div>
