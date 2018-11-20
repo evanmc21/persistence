@@ -51,7 +51,7 @@ router.get('/handle/:handle', (req, res) => {
     .populate('user', ['name', 'avatar'])
     .then(profile => {
       if (!profile) {
-        errors.none = "It doesn't looke like there's a profile for this user";
+        errors.none = "It doesn't look like there's a profile for this user";
         res.status(404).json(errors);
       }
       res.json(profile);

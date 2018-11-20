@@ -17,12 +17,12 @@ class Login extends Component {
     }
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.auth.isAuthenticated) {
+  componentDidUpdate = nextProps => {
+    if (nextProps.auth.isAuthenticated) {
       this.props.history.push('/dashboard');
     }
-    if (prevProps.errors !== this.props.errors) {
-      this.setState({ errors: prevProps.errors });
+    if (nextProps.errors !== this.props.errors) {
+      this.setState({ errors: nextProps.errors });
     }
   };
   onChange = e => {

@@ -3,7 +3,7 @@ import {
   GET_PROFILE,
   PROFILE_LOADING,
   GET_ERRORS,
-  CLEAN_CURRENT_PROFILE
+  CLEAR_CURRENT_PROFILE
 } from './types';
 
 export const getCurrentProfile = () => dispatch => {
@@ -32,7 +32,7 @@ export const setProfileLoading = () => {
 
 export const clearCurrentProfile = () => {
   return {
-    type: CLEAN_CURRENT_PROFILE
+    type: CLEAR_CURRENT_PROFILE
   };
 };
 
@@ -40,10 +40,10 @@ export const createProfile = (profileData, history) => dispatch => {
   axios
     .post('/api/profile', profileData)
     .then(res => history.push('/dashboard'))
-    .catch(err => {
+    .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      });
-    });
+      })
+    );
 };
