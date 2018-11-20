@@ -17,6 +17,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/create-profile/CreateProfile';
 import EditProfile from './components/edit-profile/EditProfile';
 import Experience from './components/credentials/Experience';
+import Education from './components/credentials/Education';
 
 import './App.css';
 
@@ -62,6 +63,7 @@ class App extends Component {
                 path="/add-experience"
                 component={Experience}
               />
+              <PrivateRoute exact path="/add-education" component={Education} />
             </div>
             <Footer />
           </div>
