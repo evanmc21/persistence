@@ -13,9 +13,8 @@ const TextArea = ({ name, placeholder, value, error, info, onChange }) => {
         name={name}
         value={value}
         onChange={onChange}
-        disabled={disabled}
       />
-      {info && <small classname="form-text text-muted">{info}</small>}
+      {info && <small className="form-text text-muted">{info}</small>}
       {error && <div className="invalid-feedback">{error}</div>}
     </div>
   );
@@ -28,8 +27,7 @@ TextArea.prototypes = {
   info: PropTypes.string,
   type: PropTypes.string.isRequired,
   error: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  disabled: PropTypes.string
+  onChange: PropTypes.func.isRequired
 };
 
 export default TextArea;

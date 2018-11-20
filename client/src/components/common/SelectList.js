@@ -2,9 +2,11 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const SelectList = ({ name, value, error, info, onChange }) => {
+const SelectList = ({ name, value, error, info, options, onChange }) => {
   const selectOptions = options.map(option => (
-    <option key={option.label} value={option.value} />
+    <option key={option.label} value={option.value}>
+      {option.label}
+    </option>
   ));
   return (
     <div className="form-group">
@@ -19,7 +21,7 @@ const SelectList = ({ name, value, error, info, onChange }) => {
         {selectOptions}
       </select>
 
-      {info && <small classname="form-text text-muted">{info}</small>}
+      {info && <small className="form-text text-muted">{info}</small>}
       {error && <div className="invalid-feedback">{error}</div>}
     </div>
   );
