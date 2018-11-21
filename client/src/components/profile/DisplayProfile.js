@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ProfileAbout from './ProfileAbout';
 import ProfileCreds from './ProfileCreds';
 import ProfileHeader from './ProfileHeader';
+import Spinner from '../common/Spinner';
 import { getProfileByHandle } from '../../actions/profile';
 
 class DisplayProfile extends Component {
@@ -15,9 +16,35 @@ class DisplayProfile extends Component {
     }
   };
   render() {
+    const { profile, loading } = this.props.profile;
+    let profileContent;
+
+    if (profile === null || loading) {
+      profileContent = <Spinner />;
+    } else {
+      profileContent = (
+        <div>
+          <div className="row">
+            <div className="col-md-6">
+              <Link to="/profiles" className="text-info mb-3 float-left">
+                Back to Profiles
+              </Link>
+            </div>
+          </div>
+          {/* pass profile from parent component */}
+          <ProfileHeader profile={profile} />
+          <ProfileAbout />
+          <ProfileCreds />
+        </div>
+      );
+    }
     return (
-      <div>
-        <h1>Display Profile</h1>
+      <div className="display-profile">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">{profileContent}</div>
+          </div>
+        </div>
       </div>
     );
   }
