@@ -64,7 +64,7 @@ class PostShow extends Component {
                   <button
                     onClick={this.onDeleteClick.bind(this, post._id)}
                     type="button"
-                    className="btn btn-danger active"
+                    className="btn btn-outline-danger"
                   >
                     <i className="fas fa-times" />
                   </button>

@@ -29,7 +29,7 @@ class CommentShow extends Component {
               <button
                 onClick={this.onDeleteClick.bind(this, postId, comment._id)}
                 type="button"
-                className="btn btn-danger active"
+                className="btn btn-sm btn-outline-danger"
               >
                 <i className="fas fa-times" />
               </button>
