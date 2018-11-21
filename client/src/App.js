@@ -21,6 +21,7 @@ import Education from './components/credentials/Education';
 import Profiles from './components/profiles/Profiles';
 import DisplayProfile from './components/profile/DisplayProfile';
 import Posts from './components/posts/Posts';
+import Post from './components/post/Post';
 
 import './App.css';
 
@@ -70,6 +71,7 @@ class App extends Component {
               />
               <PrivateRoute exact path="/add-education" component={Education} />
               <PrivateRoute exact path="/feed" component={Posts} />
+              <PrivateRoute exact path="/post/:id" component={Post} />
             </div>
             <Footer />
           </div>

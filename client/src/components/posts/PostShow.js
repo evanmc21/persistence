@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deletePost, likePost } from '../../actions/post';
-import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 
 class PostShow extends Component {
@@ -14,7 +13,7 @@ class PostShow extends Component {
     this.props.likePost(id);
   };
 
-  // used to see to if an icon to
+  // used to see to if the like icon should change colors based if a user already liked a post
   findUserLike(likes) {
     const { auth } = this.props;
     if (likes.filter(like => like.user === auth.user.id).length > 0) {
@@ -25,7 +24,7 @@ class PostShow extends Component {
   }
 
   render() {
-    const { post, auth } = this.props;
+    const { post, auth, showActions } = this.props;
 
     return (
       <div className="card card-body mb-3">
@@ -42,29 +41,35 @@ class PostShow extends Component {
           </div>
           <div className="col-md-10">
             <p className="lead">{post.content}</p>
-            <button
-              onClick={this.onLikeClick.bind(this, post._id)}
-              type="button"
-              className="btn btn-light mr-1"
-            >
-              <i
-                className={`${
-                  this.findUserLike(post.likes) ? 'text-info' : 'text-secondary'
-                } fas fa-thumbs-up`}
-              />
-              <span className="badge badge-light">{post.likes.length}</span>
-            </button>
-            <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
-              Comments
-            </Link>
-            {post.user === auth.user.id ? (
-              <button
-                onClick={this.onDeleteClick.bind(this, post._id)}
-                type="button"
-                className="btn btn-danger active"
-              >
-                <i className="fas fa-times" />
-              </button>
+            {showActions ? (
+              <span>
+                <button
+                  onClick={this.onLikeClick.bind(this, post._id)}
+                  type="button"
+                  className="btn btn-light mr-1"
+                >
+                  <i
+                    className={`${
+                      this.findUserLike(post.likes)
+                        ? 'text-info'
+                        : 'text-secondary'
+                    } fas fa-thumbs-up`}
+                  />
+                  <span className="badge badge-light">{post.likes.length}</span>
+                </button>
+                <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
+                  Comments
+                </Link>
+                {post.user === auth.user.id ? (
+                  <button
+                    onClick={this.onDeleteClick.bind(this, post._id)}
+                    type="button"
+                    className="btn btn-danger active"
+                  >
+                    <i className="fas fa-times" />
+                  </button>
+                ) : null}
+              </span>
             ) : null}
           </div>
         </div>
@@ -73,6 +78,10 @@ class PostShow extends Component {
   }
 }
 
+// set showActions to true be default
+PostShow.defaultProps = {
+  showActions: true
+};
 PostShow.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
