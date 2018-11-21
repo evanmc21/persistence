@@ -33,8 +33,11 @@ class DisplayProfile extends Component {
           </div>
           {/* pass profile from parent component */}
           <ProfileHeader profile={profile} />
-          <ProfileAbout />
-          <ProfileCreds />
+          <ProfileAbout profile={profile} />
+          <ProfileCreds
+            experience={profile.experience}
+            education={profile.education}
+          />
         </div>
       );
     }
