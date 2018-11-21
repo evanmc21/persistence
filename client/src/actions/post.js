@@ -6,7 +6,8 @@ import {
   GET_POST,
   POST_LOADING,
   DELETE_POST,
-  LIKE_POST
+  LIKE_POST,
+  DELETE_COMMENT
 } from './types';
 
 export const addPost = postData => dispatch => {
@@ -118,4 +119,11 @@ export const addComment = (postId, commentData) => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+export const deleteComment = (postId, commentId) => dispatch => {
+  axios
+    .delete(`/api/posts/${postId}/comment/${commentId}`, postId, commentId)
+    .then(res => dispatch({ type: DELETE_COMMENT, payload: commentId }))
+    .catch(err => dispatch({ type: GET_ERRORS, payload: err.response.data }));
 };
