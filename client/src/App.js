@@ -18,6 +18,7 @@ import CreateProfile from './components/create-profile/CreateProfile';
 import EditProfile from './components/edit-profile/EditProfile';
 import Experience from './components/credentials/Experience';
 import Education from './components/credentials/Education';
+import Profiles from './components/profiles/Profiles';
 
 import './App.css';
 
@@ -47,6 +48,7 @@ class App extends Component {
             <div className="container">
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/login" component={Login} />
+              <Route exact path="/profiles" component={Profiles} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute
                 exact
