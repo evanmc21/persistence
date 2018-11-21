@@ -19,6 +19,7 @@ import EditProfile from './components/edit-profile/EditProfile';
 import Experience from './components/credentials/Experience';
 import Education from './components/credentials/Education';
 import Profiles from './components/profiles/Profiles';
+import DisplayProfile from './components/profile/DisplayProfile';
 
 import './App.css';
 
@@ -49,6 +50,7 @@ class App extends Component {
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/profiles" component={Profiles} />
+              <Route exact path="/profile/:handle" component={DisplayProfile} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute
                 exact
