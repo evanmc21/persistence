@@ -20,6 +20,7 @@ import Experience from './components/credentials/Experience';
 import Education from './components/credentials/Education';
 import Profiles from './components/profiles/Profiles';
 import DisplayProfile from './components/profile/DisplayProfile';
+import Posts from './components/posts/Posts';
 
 import './App.css';
 
@@ -68,6 +69,7 @@ class App extends Component {
                 component={Experience}
               />
               <PrivateRoute exact path="/add-education" component={Education} />
+              <PrivateRoute exact path="/feed" component={Posts} />
             </div>
             <Footer />
           </div>
