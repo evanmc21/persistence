@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deletePost } from '../../actions/post';
+import { deletePost, likePost } from '../../actions/post';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 
@@ -9,6 +9,20 @@ class PostShow extends Component {
   onDeleteClick = id => {
     this.props.deletePost(id);
   };
+
+  onLikeClick = id => {
+    this.props.likePost(id);
+  };
+
+  findUserLike(likes) {
+    const { auth } = this.props;
+    if (likes.filter(like => like.user === auth.user.id).length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     const { post, auth } = this.props;
 
@@ -27,12 +41,17 @@ class PostShow extends Component {
           </div>
           <div className="col-md-10">
             <p className="lead">{post.content}</p>
-            <button type="button" className="btn btn-light mr-1">
-              <i className="text-info fas fa-thumbs-up" />
+            <button
+              onClick={this.onLikeClick.bind(this, post._id)}
+              type="button"
+              className="btn btn-light mr-1"
+            >
+              <i
+                className={`${
+                  this.findUserLike(post.likes) ? 'text-info' : 'text-secondary'
+                } fas fa-thumbs-up`}
+              />
               <span className="badge badge-light">4</span>
-            </button>
-            <button type="button" className="btn btn-light mr-1">
-              <i className="text-secondary fas fa-thumbs-down" />
             </button>
             <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
               Comments
@@ -55,7 +74,9 @@ class PostShow extends Component {
 
 PostShow.propTypes = {
   post: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  likePost: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -64,5 +85,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { deletePost }
+  { deletePost, likePost }
 )(PostShow);

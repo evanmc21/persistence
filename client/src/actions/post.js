@@ -64,3 +64,16 @@ export const deletePost = id => dispatch => {
       })
     );
 };
+
+// add like to post
+export const likePost = id => dispatch => {
+  axios
+    .post(`/api/posts/like/${id}`)
+    .then(res => dispatch(getPosts()))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
