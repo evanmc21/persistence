@@ -14,6 +14,7 @@ class PostShow extends Component {
     this.props.likePost(id);
   };
 
+  // used to see to if an icon to
   findUserLike(likes) {
     const { auth } = this.props;
     if (likes.filter(like => like.user === auth.user.id).length > 0) {
@@ -51,7 +52,7 @@ class PostShow extends Component {
                   this.findUserLike(post.likes) ? 'text-info' : 'text-secondary'
                 } fas fa-thumbs-up`}
               />
-              <span className="badge badge-light">4</span>
+              <span className="badge badge-light">{post.likes.length}</span>
             </button>
             <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
               Comments
