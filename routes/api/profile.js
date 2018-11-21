@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
+const prependHttp = require('prepend-http');
 const validateProfile = require('../../validations/profile');
 const validateExperience = require('../../validations/experience');
 const validateEducation = require('../../validations/education');
@@ -114,7 +115,9 @@ router.post(
           ['youtube', 'twitter', 'instagram', 'linkedin'].includes(key) &&
           req.body[key]
         ) {
-          profileFields.social[key] = req.body[key];
+          profileFields.social[key] = prependHttp(req.body[key], {
+            https: true
+          });
         } else if (req.body[key]) {
           profileFields[key] = req.body[key];
         }
